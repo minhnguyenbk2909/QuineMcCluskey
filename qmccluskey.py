@@ -124,6 +124,57 @@ if args.variables:
         sys.exit("Error: Number of variables entered is not enough to represent expression")
 else:
     variables = []
+    
+# Define a function to draw a karnaugh map to console
+# Define a function to draw a karnaugh map to console
+def draw_kmap(minterms, dont_cares):
+    # Convert the input strings to lists of integers
+    minterms = [int(x) for x in minterms]
+    dont_cares = [int(x) for x in dont_cares]
+    
+    # Define a list of kmap headers
+    headers = ["00", "01", "11", "10"]
+    
+    # Initialize an empty kmap matrix
+    kmap = [["" for _ in range(4)] for _ in range(4)]
+    
+    # Fill the kmap matrix with 1, 0 or X based on the inputs
+    for i in range(4):
+        for j in range(4):
+            # Convert the row and column indices to binary strings
+            row = format(i, "02b")
+            col = format(j, "02b")
+            
+            # Concatenate the row and column binary strings to get the decimal value
+            value = int(row + col, 2)
+            
+            # Check if the value is in minterms, dont_cares or neither
+            if value in minterms:
+                kmap[i][j] = "1"
+            elif value in dont_cares:
+                kmap[i][j] = "X"
+            else:
+                kmap[i][j] = "0"
+                
+    # Swap 3rd and 4th columns of each rows
+    for i in range(4):
+        kmap[i][2], kmap[i][3] = kmap[i][3], kmap[i][2]
+    # Swap 3rd and 4th rows
+    kmap[2], kmap[3] = kmap[3], kmap[2]
+    
+    # Print the kmap matrix to console with headers and tabs
+    print("\t", end="")
+    for h in headers:
+        print(h, end="\t")
+    print()
+    
+    for i in range(4):
+        print(headers[i], end="\t")
+        for j in range(4):
+            print(kmap[i][j], end="\t")
+        print()
+    
+draw_kmap(minterms, dcares)
 
 # make sure show steps is either a yes or a no
 if args.show_steps.lower() != 'yes' and args.show_steps.lower() != 'no':
