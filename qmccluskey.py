@@ -173,8 +173,10 @@ def draw_kmap(minterms, dont_cares):
         for j in range(4):
             print(kmap[i][j], end="\t")
         print()
-    
+
+print("Karnaugh map:")    
 draw_kmap(minterms, dcares)
+print("\n")
 
 # make sure show steps is either a yes or a no
 if args.show_steps.lower() != 'yes' and args.show_steps.lower() != 'no':
